@@ -8,7 +8,7 @@
 
 int _printf(const char *format, ...)
 {
-	int counter = 0;
+	int counter = 0, num;
 	va_list arguments;
 
 	va_start(arguments, format);
@@ -37,6 +37,12 @@ int _printf(const char *format, ...)
 				write(1, format, 1);
 				counter++;
 			}
+			else if (*format == 'i' || *format == 'd')
+			{
+				num = va_arg(arguments, int);
+				counter += printInt(num);
+			}
+
 		}
 		else
 		{
@@ -65,5 +71,46 @@ int write_string(char *s)
 
 	write(1, string, string_len);
 	count += string_len;
+	return (count);
+}
+
+/**
+  *printInt - prints integers and returns number of printed integer
+  *@num: number to be taken in as parameter
+  *Return: it returns number of printed integer.
+  */
+int printInt(int num)
+{
+	int reversed = 0;
+	int count = 0;
+
+	if (num < 0)
+	{
+		_putchar('-');
+		count++;
+		num = -num;
+	}
+
+	if (num == 0)
+	{
+		_putchar('0');
+		count++;
+		return (count);
+	}
+
+	while (num != 0)
+	{
+		reversed = num % 10;
+		reversed += reversed * 10;
+		num /= 10;
+	}
+
+	while (reversed != 0)
+	{
+		_putchar(reversed % 10 + '0');
+		reversed /= 10;
+		count++;
+	}
+	_putchar('\n');
 	return (count);
 }
