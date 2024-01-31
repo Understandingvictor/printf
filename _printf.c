@@ -52,11 +52,9 @@ void specifiers(const char *input, va_list arguments)
 	else if (*input == 's')
 	{
 		int stringlength = 0;
-
 		char *string = va_arg(arguments, char *);
 
 		stringlength = strlen(string);
-
 		write(1, string, stringlength);
 	}
 	else if (*input == '%')
@@ -65,10 +63,34 @@ void specifiers(const char *input, va_list arguments)
 	}
 	else if (*input == 'd' || *input == 'i')
 	{
-		char buffer[30];
+		char temp_space[256];
 		int numbers = va_arg(arguments, int);
 
-		sprintf(buffer, "%d", numbers);
-		write(1, buffer, strlen(buffer));
+		sprintf(temp_space, "%d", numbers);
+		write(1, temp_space, strlen(temp_space));
+	}
+	else if (*input == 'u')
+	{
+		char temp_space[256];
+		unsigned int numbers = va_arg(arguments, unsigned int);
+
+		sprintf(temp_space, "%u", numbers);
+		write(1, temp_space, strlen(temp_space));
+	}
+	else if (*input == 'x')
+	{
+		char temp_space[256];
+		unsigned int num = va_arg(arguments, unsigned int);
+
+		sprintf(temp_space, "%x", num);
+		write(1, temp_space, strlen(temp_space));
+	}
+	else if (*input == 'X')
+	{
+		char temp_space[256];
+		unsigned int num = va_arg(arguments, unsigned int);
+
+		sprintf(temp_space, "%X", num);
+		write(1, temp_space, strlen(temp_space));
 	}
 }
