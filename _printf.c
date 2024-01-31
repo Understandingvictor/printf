@@ -55,11 +55,9 @@ void specifiers(const char *input, va_list arguments)
 
 		char *string = va_arg(arguments, char *);
 
-		while (string[stringlength] != '\0')
-		{
-			stringlength++;
-		}
-		write(1, &string, stringlength);
+		stringlength = strlen(string);
+
+		write(1, string, stringlength);
 	}
 	else if (*input == '%')
 	{
