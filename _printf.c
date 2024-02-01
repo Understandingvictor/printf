@@ -58,9 +58,7 @@ void specifiers(const char *input, va_list arguments)
 		write(1, string, stringlength);
 	}
 	else if (*input == '%')
-	{
 		write(1, input, 1);
-	}
 	else if (*input == 'd' || *input == 'i')
 	{
 		char temp_space[256];
@@ -93,4 +91,12 @@ void specifiers(const char *input, va_list arguments)
 		sprintf(temp_space, "%X", num);
 		write(1, temp_space, strlen(temp_space));
 	}
+	else
+	{
+		_putchar('%');
+		_putchar(*input);
+
+	}
 }
+
+
