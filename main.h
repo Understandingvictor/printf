@@ -1,14 +1,17 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#define BUFFER 1024
+
 #include <unistd.h>
 #include <stdarg.h>
 #include <string.h>
 #include <stdio.h>
 
 int _printf(const char *format, ...);
-void specifiers(const char *input, va_list arguments, int *counter);
-void _putchar(char c);
-void specifiers_1(const char *input, int *counter);
+void _putchar(char c, int *counter);
+int specifiers(const char *input, va_list arguments);
+void print_string(va_list arguments, int *counter);
+void print_integer(va_list arguments, int *counter);
 
 #endif
