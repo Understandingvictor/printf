@@ -1,12 +1,12 @@
 #include "main.h"
 
+#define buffer 1024
 /**
  * _printf - A self implemented printf project
  * @format: format string that may or may not contain
  * the format specifiers
  * Return: number of printed bytes
 */
-
 int _printf(const char *format, ...)
 {
 	int counter = 0;
@@ -15,88 +15,82 @@ int _printf(const char *format, ...)
 	va_start(arguments, format);
 	while (*format)
 	{
-		if (*format == '%')
+		if (*format != '%')
+		{
+			_putchar(*format++);
+			counter++;
+		}
+		else if (*format == '%')
 		{
 			format++;
-			specifiers(format, arguments);
-			counter++;
+			if (*format)
+			{
+				if (*format == '%')
+				{
+					_putchar('%');
+					counter++;
+				}
+				else if (*format == 'i' || *format == 's')
+					specifiers(format, arguments, &counter);
+				else if (*format == 'c' || *format == 'd')
+					specifiers(format, arguments, &counter);
+				else
+				{
+					_putchar('%');
+					_putchar(*format);
+					counter += 2;
+				}
+			}
+			format++;
 		}
-		else
-		{
-			write(1, format, 1);
-			counter++;
-		}
-		++format;
 	}
 	va_end(arguments);
 	return (counter);
 }
 
-#include "main.h"
 /**
- * specifiers - This function is to handle the specifiers
- * for the printf project
- * @input: the format is taken as input and saved in -input-
- * of same data type
- * @arguments: This is the variable list to print out
+ * specifiers - handles the %i %d %c %%
+ * @input: saves the data from fornat to handle
+ * @counter: keeps track if the bytes printed
+ * @arguments: ............../
+ * returns: void
 */
-
-void specifiers(const char *input, va_list arguments)
+void specifiers(const char *input, va_list arguments, int *counter)
 {
-	if (*input == 'c')
+	if (*input == 's')
+	{
+		char *string = va_arg(arguments, char *);
+		 write(1, string, strlen(string));
+		 (*counter) += strlen(string);
+	}
+	else if (*input == 'c')
 	{
 		char c = va_arg(arguments, int);
 
-		write(1, &c, 1);
+		_putchar(c);
+		(*counter)++;
 	}
-	else if (*input == 's')
+	else if (*input == 'i' || *input == 'd')
 	{
-		int stringlength = 0;
-		char *string = va_arg(arguments, char *);
+		int i = 0;
+		int n;
+		char temp_space[buffer];
+		int number = va_arg(arguments, int);
 
-		stringlength = strlen(string);
-		write(1, string, stringlength);
-	}
-	else if (*input == '%')
-		write(1, input, 1);
-	else if (*input == 'd' || *input == 'i')
-	{
-		char temp_space[256];
-		int numbers = va_arg(arguments, int);
-
-		sprintf(temp_space, "%d", numbers);
-		write(1, temp_space, strlen(temp_space));
-	}
-	else if (*input == 'u')
-	{
-		char temp_space[256];
-		unsigned int numbers = va_arg(arguments, unsigned int);
-
-		sprintf(temp_space, "%u", numbers);
-		write(1, temp_space, strlen(temp_space));
-	}
-	else if (*input == 'x')
-	{
-		char temp_space[256];
-		unsigned int num = va_arg(arguments, unsigned int);
-
-		sprintf(temp_space, "%x", num);
-		write(1, temp_space, strlen(temp_space));
-	}
-	else if (*input == 'X')
-	{
-		char temp_space[256];
-		unsigned int num = va_arg(arguments, unsigned int);
-
-		sprintf(temp_space, "%X", num);
-		write(1, temp_space, strlen(temp_space));
-	}
-	else
-	{
-		_putchar('%');
-		_putchar(*input);
-
+		if (number < 0)
+		{
+			_putchar('-');
+			number = -number;
+		}
+		while (number > 0)
+		{
+			temp_space[i++] = (number % 10) + '0';
+			number = number / 10;
+		}
+		for (n = i - 1; n >= 0; n--)
+		{
+			_putchar(temp_space[n]);
+			(*counter)++;
+		}
 	}
 }
-
-
