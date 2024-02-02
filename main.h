@@ -13,5 +13,6 @@ void _putchar(char c, int *counter);
 int specifiers(const char *input, va_list arguments);
 void print_string(va_list arguments, int *counter);
 void print_integer(va_list arguments, int *counter);
+void print_unsigned_int(va_list arguments, int *counter);
 
 #endif
