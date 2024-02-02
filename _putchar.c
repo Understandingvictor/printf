@@ -1,9 +1,9 @@
 #include "main.h"
 /**
- * _putchar - writes a char to the stdio
+ * _putchar - writes a char to the std output
  * @c: char to print out
  * @counter: keeps track of the bytes printed
- * returns : void
+ * Return: void
 */
 void _putchar(char c, int *counter)
 {
