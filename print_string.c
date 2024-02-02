@@ -11,13 +11,19 @@ void print_string(va_list arguments, int *counter)
 {
 	char *string = va_arg(arguments, char *);
 
-	if (string == NULL)
+	if (string != NULL)
 	{
-		string = "(null)";
-	}
-
 	size_t length = strlen(string);
 
 	write(1, string, length);
 	(*counter) += length;
+	}
+	else
+	{
+		char *null = "(null)";
+		size_t length = strlen(null);
+
+		write(1, null, length);
+		(*counter) += length;
+	}
 }
